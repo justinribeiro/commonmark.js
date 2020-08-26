@@ -16,8 +16,8 @@
   },
   "license": "BSD-2-Clause",
   "type": "commonjs",
-  "main": "./dist/commonmark.js",
-  "module": "./lib/index.js",
+  "main": "dist/commonmark.js",
+  "module": "lib/index.js",
   "exports": {
     ".": {
       "require": "./dist/commonmark.js",
@@ -39,7 +39,7 @@
     "minimist": ">=1.2.2"
   },
   "directories": {
-    "lib": "./lib"
+    "lib": "lib"
   },
   "engines": {
     "node": "*"
