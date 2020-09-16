@@ -20,7 +20,7 @@ export default {
             plugins: [uglify()],
         },
         {
-            file: "dist/commonmark.esm.js",
+            file: "dist/commonmark.module.js",
             format: "esm",
             plugins: [terser()],
         },
