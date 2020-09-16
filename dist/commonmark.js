@@ -1,4 +1,3 @@
-/* commonmark 0.29 https://github.com/commonmark/commonmark.js @license BSD3 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -334,34 +333,36 @@
 
     var encodeCache = {};
 
-
     // Create a lookup array where anything but characters in `chars` string
     // and alphanumeric chars is percent-encoded.
     //
     function getEncodeCache(exclude) {
-      var i, ch, cache = encodeCache[exclude];
-      if (cache) { return cache; }
-
-      cache = encodeCache[exclude] = [];
-
-      for (i = 0; i < 128; i++) {
-        ch = String.fromCharCode(i);
-
-        if (/^[0-9a-z]$/i.test(ch)) {
-          // always allow unencoded alphanumeric characters
-          cache.push(ch);
-        } else {
-          cache.push('%' + ('0' + i.toString(16).toUpperCase()).slice(-2));
+        var i,
+            ch,
+            cache = encodeCache[exclude];
+        if (cache) {
+            return cache;
         }
-      }
 
-      for (i = 0; i < exclude.length; i++) {
-        cache[exclude.charCodeAt(i)] = exclude[i];
-      }
+        cache = encodeCache[exclude] = [];
 
-      return cache;
+        for (i = 0; i < 128; i++) {
+            ch = String.fromCharCode(i);
+
+            if (/^[0-9a-z]$/i.test(ch)) {
+                // always allow unencoded alphanumeric characters
+                cache.push(ch);
+            } else {
+                cache.push("%" + ("0" + i.toString(16).toUpperCase()).slice(-2));
+            }
+        }
+
+        for (i = 0; i < exclude.length; i++) {
+            cache[exclude.charCodeAt(i)] = exclude[i];
+        }
+
+        return cache;
     }
-
 
     // Encode unsafe characters with percent-encoding, skipping already
     // encoded sequences.
@@ -371,61 +372,62 @@
     //  - keepEscaped  - don't encode '%' in a correct escape sequence (default: true)
     //
     function encode(string, exclude, keepEscaped) {
-      var i, l, code, nextCode, cache,
-          result = '';
+        var i,
+            l,
+            code,
+            nextCode,
+            cache,
+            result = "";
 
-      if (typeof exclude !== 'string') {
-        // encode(string, keepEscaped)
-        keepEscaped  = exclude;
-        exclude = encode.defaultChars;
-      }
-
-      if (typeof keepEscaped === 'undefined') {
-        keepEscaped = true;
-      }
-
-      cache = getEncodeCache(exclude);
-
-      for (i = 0, l = string.length; i < l; i++) {
-        code = string.charCodeAt(i);
-
-        if (keepEscaped && code === 0x25 /* % */ && i + 2 < l) {
-          if (/^[0-9a-f]{2}$/i.test(string.slice(i + 1, i + 3))) {
-            result += string.slice(i, i + 3);
-            i += 2;
-            continue;
-          }
+        if (typeof exclude !== "string") {
+            // encode(string, keepEscaped)
+            keepEscaped = exclude;
+            exclude = encode.defaultChars;
         }
 
-        if (code < 128) {
-          result += cache[code];
-          continue;
+        if (typeof keepEscaped === "undefined") {
+            keepEscaped = true;
         }
 
-        if (code >= 0xD800 && code <= 0xDFFF) {
-          if (code >= 0xD800 && code <= 0xDBFF && i + 1 < l) {
-            nextCode = string.charCodeAt(i + 1);
-            if (nextCode >= 0xDC00 && nextCode <= 0xDFFF) {
-              result += encodeURIComponent(string[i] + string[i + 1]);
-              i++;
-              continue;
+        cache = getEncodeCache(exclude);
+
+        for (i = 0, l = string.length; i < l; i++) {
+            code = string.charCodeAt(i);
+
+            if (keepEscaped && code === 0x25 /* % */ && i + 2 < l) {
+                if (/^[0-9a-f]{2}$/i.test(string.slice(i + 1, i + 3))) {
+                    result += string.slice(i, i + 3);
+                    i += 2;
+                    continue;
+                }
             }
-          }
-          result += '%EF%BF%BD';
-          continue;
+
+            if (code < 128) {
+                result += cache[code];
+                continue;
+            }
+
+            if (code >= 0xd800 && code <= 0xdfff) {
+                if (code >= 0xd800 && code <= 0xdbff && i + 1 < l) {
+                    nextCode = string.charCodeAt(i + 1);
+                    if (nextCode >= 0xdc00 && nextCode <= 0xdfff) {
+                        result += encodeURIComponent(string[i] + string[i + 1]);
+                        i++;
+                        continue;
+                    }
+                }
+                result += "%EF%BF%BD";
+                continue;
+            }
+
+            result += encodeURIComponent(string[i]);
         }
 
-        result += encodeURIComponent(string[i]);
-      }
-
-      return result;
+        return result;
     }
 
-    encode.defaultChars   = ";/?:@&=+$,-_.!~*'()#";
+    encode.defaultChars = ";/?:@&=+$,-_.!~*'()#";
     encode.componentChars = "-_.!~*'()";
-
-
-    var encode_1 = encode;
 
     var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -7373,7 +7375,7 @@
     });
 
     unwrapExports(encode$1);
-    var encode_1$1 = encode$1.encodeXML;
+    var encode_1 = encode$1.encodeXML;
     var encode_2 = encode$1.encodeHTML;
     var encode_3 = encode$1.escape;
 
@@ -7481,7 +7483,7 @@
 
     var reXmlSpecial = new RegExp(XMLSPECIAL, "g");
 
-    var unescapeChar = function(s) {
+    var unescapeChar = function (s) {
         if (s.charCodeAt(0) === C_BACKSLASH) {
             return s.charAt(1);
         } else {
@@ -7490,7 +7492,7 @@
     };
 
     // Replace entities and backslash escapes with literal characters.
-    var unescapeString = function(s) {
+    var unescapeString = function (s) {
         if (reBackslashOrAmp.test(s)) {
             return s.replace(reEntityOrEscapedChar, unescapeChar);
         } else {
@@ -7498,15 +7500,15 @@
         }
     };
 
-    var normalizeURI = function(uri) {
+    var normalizeURI = function (uri) {
         try {
-            return encode_1(uri);
+            return encode(uri);
         } catch (err) {
             return uri;
         }
     };
 
-    var replaceUnsafeChar = function(s) {
+    var replaceUnsafeChar = function (s) {
         switch (s) {
             case "&":
                 return "&amp;";
@@ -7521,7 +7523,7 @@
         }
     };
 
-    var escapeXml = function(s) {
+    var escapeXml = function (s) {
         if (reXmlSpecial.test(s)) {
             return s.replace(reXmlSpecial, replaceUnsafeChar);
         } else {
