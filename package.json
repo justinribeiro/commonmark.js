@@ -59,9 +59,10 @@
     "marked": "^0.8.0",
     "mem": ">=4.0.0",
     "rollup": "^1.29.0",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-uglify": "^6.0.4",
+    "serialize-javascript": ">=3.1.0",
     "showdown": "^1.9.1",
-    "uglify-js": "^3.4.0",
-    "serialize-javascript": ">=3.1.0"
+    "uglify-js": "^3.4.0"
   }
 }
